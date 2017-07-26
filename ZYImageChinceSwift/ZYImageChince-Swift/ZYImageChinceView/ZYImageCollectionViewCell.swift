@@ -12,19 +12,6 @@ class ZYImageCollectionViewCell: UICollectionViewCell {
     
     var imageV:UIImageView?;
     var selectedImageV:UIImageView?;
-    var _aset:PHAsset?;
-    var aset:PHAsset{
-        set{
-            _aset = newValue;
-            ZYImageManager.getImage(asset: _aset!) { (zimage) in
-                self.imageV?.image = zimage;
-                
-            }
-        }
-        get{
-            return _aset!;
-        }
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame);
@@ -42,6 +29,9 @@ class ZYImageCollectionViewCell: UICollectionViewCell {
         imageV = UIImageView.init(frame: self.bounds);
         self.addSubview(imageV!);
         selectedImageV = UIImageView.init(frame: CGRect.init(x: self.bounds.size.width-18, y: 0, width: 18, height: 18));
+        imageV?.contentMode = .scaleAspectFill;
+        imageV?.layer.cornerRadius = 5;
+        imageV?.layer.masksToBounds = true;
         selectedImageV?.tag = 2001;
         selectedImageV?.isHidden = true;
         selectedImageV?.image = UIImage.init(named: "checkmark");

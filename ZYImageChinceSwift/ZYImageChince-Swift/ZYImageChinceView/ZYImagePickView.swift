@@ -47,6 +47,9 @@ class ZYImagePickView: UIView ,UINavigationControllerDelegate,UIImagePickerContr
         for img in _imageArray! {
             let imageV = UIImageView.init(frame: CGRect.init(x: spece + CGFloat(i%3) * (width + spece), y: spece + CGFloat(i/3) * (width + spece), width: width, height: width));
             imageV.image = img;
+            imageV.layer.cornerRadius = 4;
+            imageV.layer.masksToBounds = true;
+            imageV.contentMode = .scaleAspectFill;
             imageV.isUserInteractionEnabled = true;
             self.addSubview(imageV);
             let btn = UIButton.init(type: UIButtonType.system);
@@ -83,14 +86,8 @@ class ZYImagePickView: UIView ,UINavigationControllerDelegate,UIImagePickerContr
         self.zyViewController()?.present(UINavigationController.init(rootViewController: viewC), animated: true, completion: nil);
         
         viewC.selectImageFaction = { (imgArray) -> Void in
-            for asset in imgArray {
-                
-                ZYImageManager.getImage(asset: asset, imageFunction: { (img) in
-                    self._imageArray?.append(img);
-                    self.creatSubViews();
-                });
-                
-            }
+            self._imageArray = imgArray;
+            self.creatSubViews();
             
         }
     }

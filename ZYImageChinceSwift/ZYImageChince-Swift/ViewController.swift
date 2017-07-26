@@ -15,6 +15,7 @@ class ViewController: UIViewController {
       
         let pickV = ZYImagePickView.init(frame: CGRect.init(x: 0, y: 100, width: UIScreen.main.bounds.size.width, height: 300), maxcount: 9);
         self.view.addSubview(pickV);
+       
         
     }
 

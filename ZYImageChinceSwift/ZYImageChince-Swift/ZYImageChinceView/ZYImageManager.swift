@@ -11,18 +11,26 @@ import Photos
 class ZYImageManager: NSObject {
 
     //获取相册中所有的asset对象
-    class func GetAllImagePhasset(phaseFunction:(_ phasetArray:Array<PHAsset>)->Void){
+    class func GetAllImagePhasset(phaseFunction:@escaping (_ phasetArray:Array<UIImage>)->Void){
         let options = PHFetchOptions.init();
         options.sortDescriptors = [NSSortDescriptor.init(key: "creationDate", ascending: true)];
         let assetsFetchResults = PHAsset.fetchAssets(with: options) as PHFetchResult;
-        var arr:Array<PHAsset> = Array.init();
+        var arr:Array<UIImage> = Array.init();
         let count = assetsFetchResults.count;
         for i in 0..<count {
             let asset = assetsFetchResults[i];
-            arr.append(asset);
+//            arr.append(asset);
+            self.getImage(asset: asset, imageFunction: { (img) in
+                
+                arr.append(img);
+                if arr.count == assetsFetchResults.count{
+                    phaseFunction(arr);
+                }
+            })
         }
-        phaseFunction(arr);
         
+        
+      
     }
     //获取asset对应的图片
     class func getImage(asset:PHAsset,imageFunction:@escaping (_ phasetImage:UIImage)->Void){
